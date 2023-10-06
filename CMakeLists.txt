@@ -159,3 +159,25 @@ target_link_libraries(openmp INTERFACE
   ${PROJECT_NAME}::${PROJECT_NAME}
   OpenMP::OpenMP_CXX
 )
+
+## add unit tests
+#
+if(${P2RNG_ENABLE_TESTS})
+  enable_testing()
+  find_package(
+    Catch2 3
+    HINTS $ENV{HOME} /usr/local /opt/local /opt
+  )
+  if(NOT Catch2_FOUND)
+      message(STATUS "Fetching Catch2 library...")
+      FetchContent_Declare(
+        catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+        GIT_TAG        v3.4.0
+      )
+      FetchContent_MakeAvailable(Catch2)
+      list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+  endif()
+  include(Catch)
+  add_subdirectory(test)
+endif()
