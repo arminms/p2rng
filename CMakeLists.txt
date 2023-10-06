@@ -181,3 +181,25 @@ if(${P2RNG_ENABLE_TESTS})
   include(Catch)
   add_subdirectory(test)
 endif()
+
+## add benchmarks
+#
+if(${P2RNG_ENABLE_BENCHMARKS})
+  find_package(benchmark
+    CONFIG
+    HINTS $ENV{HOME} /usr/local /opt/local /opt
+  )
+  if(NOT benchmark_FOUND)
+    message(STATUS "Fetching Google Benchmark library...")
+    FetchContent_Declare(
+      benchmark
+      GIT_REPOSITORY https://github.com/google/benchmark.git
+      GIT_TAG        v1.7.1
+    )
+    set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL
+      "Enable testing of the benchmark library."
+    )
+    FetchContent_MakeAvailable(benchmark)
+  endif()
+  add_subdirectory(perf)
+endif()
