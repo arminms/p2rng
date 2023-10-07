@@ -22,6 +22,10 @@
  */
 
 /*
+ * This file has been changed from the original so it can be compiled for GPUs
+ */
+
+/*
  * This file provides support code that is useful for random-number generation
  * but not specific to the PCG generation scheme, including:
  *      - 128-bit int support for platforms where it isn't available natively

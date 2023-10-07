@@ -22,6 +22,10 @@
  */
 
 /*
+ * This file has been changed from the original so it can be compiled for GPUs
+ */
+
+/*
  * This code provides the reference implementation of the PCG family of
  * random number generators.  The code is complex because it implements
  *

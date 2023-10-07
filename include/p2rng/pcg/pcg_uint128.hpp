@@ -22,6 +22,10 @@
  */
 
 /*
+ * This file has been changed from the original so it can be compiled for GPUs
+ */
+
+/*
  * This code provides a a C++ class that can provide 128-bit (or higher)
  * integers.  To produce 2K-bit integers, it uses two K-bit integers,
  * placed in a union that allowes the code to also see them as four K/2 bit
