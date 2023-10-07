@@ -1,3 +1,4 @@
+[![Build and Test](https://github.com/arminms/p2rng/actions/workflows/cmake.yml/badge.svg)](https://github.com/arminms/p2rng/actions/workflows/cmake.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # p2rng 
 `p2rng` (Parallel Pseudo Random Number Generator) is a modern header-only C++
