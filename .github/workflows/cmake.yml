@@ -19,13 +19,19 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install dependencies (macOS)
-      run: |
-        brew install libomp
-      if: matrix.os == 'macos-latest'
-
-    - name: Configure CMake
+    - name: Configure CMake (Linux)
       run: cmake -B ${{github.workspace}}/build
+      if: matrix.os == 'ubuntu-latest'
+
+    - name: Configure CMake (Windows)
+      run: cmake -B ${{github.workspace}}/build
+      if: matrix.os == 'windows-latest'
+
+    - name: Configure CMake (macOS)
+      env:
+        OpenMP_ROOT: $(brew --prefix)/opt/libomp
+      run: cmake -B ${{github.workspace}}/build
+      if: matrix.os == 'macos-latest'
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build -j
