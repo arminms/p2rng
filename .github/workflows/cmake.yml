@@ -19,6 +19,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install dependencies (macOS)
+      run: |
+        brew install libomp
+      if: matrix.os == 'macos-latest'
+
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build
 
