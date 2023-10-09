@@ -96,7 +96,6 @@ if(NOT p2rng_FOUND)
   FetchContent_Declare(
     p2rng
     GIT_REPOSITORY https://github.com/arminms/p2rng.git
-    GIT_TAG        v0.1.0
   )
   FetchContent_MakeAvailable(p2rng)
 endif()
