@@ -12,8 +12,50 @@
 
 const unsigned long seed_pi{3141592654};
 
-TEMPLATE_TEST_CASE( "generate() - OpenMP", "[10K][pcg32]", float, double)
+TEMPLATE_TEST_CASE( "generate_n() - OpenMP", "[10K][pcg32]", float, double)
+{   typedef TestType T;
+    const auto n{10'007};
 
+    trng::uniform_dist<T> u(10, 100);
+    std::vector<T> vr(n), vt(n);
+    std::vector<size_t> idx(n);
+
+    std::iota(std::begin(idx), std::end(idx), 0);
+
+    std::generate_n
+    (   std::begin(vr)
+    ,   n
+    ,   std::bind(u, pcg32(seed_pi))
+    );
+
+    SECTION("std::generate_n()")
+    {   CHECK( std::all_of
+        (   std::begin(vr)
+        ,   std::end(vr)
+        ,   [] (T v)
+            { return ( v >= 10 && v < 100 ); }
+        ) );
+    }
+
+    SECTION("p2rng::generate_n()")
+    {   auto itr = p2rng::generate_n
+        (   std::begin(vt)
+        ,   n
+        ,   p2rng::bind(u, pcg32(seed_pi))
+        );
+
+        CHECK(itr == std::end(vt));
+
+        CHECK( std::all_of
+        (   std::begin(idx)
+        ,   std::end(idx)
+        ,   [&] (size_t i)
+            { return ( std::abs(vr[i] - vt[i]) < 0.00001 ); }
+        ) );
+    }
+}
+
+TEMPLATE_TEST_CASE( "generate() - OpenMP", "[10K][pcg32]", float, double)
 {   typedef TestType T;
     const auto n{10'007};
 
