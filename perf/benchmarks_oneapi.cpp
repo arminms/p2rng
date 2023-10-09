@@ -14,7 +14,7 @@ const unsigned long seed_pi{3141592654};
 // generate() algorithm
 
 template <class T>
-void generate_p2rng_oneapi(benchmark::State& st)
+void p2rng_generate_oneapi(benchmark::State& st)
 {   size_t n = size_t(st.range());
     // enabling SYCL queue profiling
     auto pl = sycl::property_list{sycl::property::queue::enable_profiling()};
@@ -22,7 +22,7 @@ void generate_p2rng_oneapi(benchmark::State& st)
     sycl::buffer<T> v(n);
 
     for (auto _ : st)
-    {   auto event = p2rng::oneapi::generate
+    {   auto event = p2rng::generate
         (   dpl::begin(v)
         ,   dpl::end(v)
         ,   p2rng::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
@@ -42,13 +42,13 @@ void generate_p2rng_oneapi(benchmark::State& st)
     );
 }
 
-BENCHMARK_TEMPLATE(generate_p2rng_oneapi, float)
+BENCHMARK_TEMPLATE(p2rng_generate_oneapi, float)
 ->  RangeMultiplier(2)
 ->  Range(1<<20, 1<<24)
 ->  UseManualTime()
 ->  Unit(benchmark::kMillisecond);
 
-BENCHMARK_TEMPLATE(generate_p2rng_oneapi, double)
+BENCHMARK_TEMPLATE(p2rng_generate_oneapi, double)
 ->  RangeMultiplier(2)
 ->  Range(1<<20, 1<<24)
 ->  UseManualTime()

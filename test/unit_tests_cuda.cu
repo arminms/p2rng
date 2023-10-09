@@ -49,9 +49,9 @@ TEMPLATE_TEST_CASE("generate() - CUDA", "[10K][pcg32]", float, double)
         ) );
     }
 
-    SECTION("p2rng::cuda::generate()")
+    SECTION("p2rng::generate()")
     {   thrust::device_vector<T> dvt(n);
-        p2rng::cuda::generate
+        p2rng::generate
         (   std::begin(dvt)
         ,   std::end(dvt)
         ,   p2rng::bind(u, pcg32(seed_pi))

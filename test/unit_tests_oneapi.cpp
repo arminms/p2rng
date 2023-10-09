@@ -43,9 +43,9 @@ TEMPLATE_TEST_CASE( "generate() - oneAPI", "[10K][pcg32]", float, double )
         ) );
     }
 
-    SECTION("p2rng::oneapi::generate()")
+    SECTION("p2rng::generate()")
     {   sycl::buffer<T> dvt{sycl::range(n)};
-        p2rng::oneapi::generate
+        p2rng::generate
         (   dpl::begin(dvt)
         ,   dpl::end(dvt)
         ,   p2rng::bind(u, pcg32(seed_pi))
