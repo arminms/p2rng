@@ -1,0 +1,32 @@
+2023-10-09T10:19:04-04:00
+Running build/perf/benchmarks
+Run on (128 X 2794.65 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x64)
+  L1 Instruction 32 KiB (x64)
+  L2 Unified 512 KiB (x64)
+  L3 Unified 32768 KiB (x16)
+Load Average: 0.01, 0.09, 0.09
+------------------------------------------------------------------------------------------------------
+Benchmark                                                 Time             CPU   Iterations  BW (GB/s)
+------------------------------------------------------------------------------------------------------
+generate_stl<float>/1048576                            1.13 ms         1.13 ms          619  3.70477/s
+generate_stl<float>/2097152                            2.26 ms         2.26 ms          309  3.70545/s
+generate_stl<float>/4194304                            4.53 ms         4.53 ms          154  3.70497/s
+generate_stl<float>/8388608                            9.07 ms         9.07 ms           76  3.70131/s
+generate_stl<float>/16777216                           18.2 ms         18.2 ms           39   3.6901/s
+generate_stl<double>/1048576                           1.13 ms         1.13 ms          618  7.41022/s
+generate_stl<double>/2097152                           2.26 ms         2.26 ms          309  7.41036/s
+generate_stl<double>/4194304                           4.55 ms         4.55 ms          154  7.37824/s
+generate_stl<double>/8388608                           9.16 ms         9.16 ms           76  7.32829/s
+generate_stl<double>/16777216                          18.4 ms         18.4 ms           38  7.31129/s
+generate_p2rng_openmp<float>/1048576/real_time        0.059 ms        0.059 ms        11925  71.6939/s
+generate_p2rng_openmp<float>/2097152/real_time        0.072 ms        0.072 ms         9691  117.179/s
+generate_p2rng_openmp<float>/4194304/real_time        0.105 ms        0.105 ms         6439   159.14/s
+generate_p2rng_openmp<float>/8388608/real_time        0.199 ms        0.199 ms         3643  168.367/s
+generate_p2rng_openmp<float>/16777216/real_time       0.341 ms        0.341 ms         2043  196.934/s
+generate_p2rng_openmp<double>/1048576/real_time       0.058 ms        0.058 ms        11740  143.954/s
+generate_p2rng_openmp<double>/2097152/real_time       0.082 ms        0.082 ms         8755  205.348/s
+generate_p2rng_openmp<double>/4194304/real_time       0.129 ms        0.129 ms         6061  259.149/s
+generate_p2rng_openmp<double>/8388608/real_time       0.255 ms        0.254 ms         3503  262.861/s
+generate_p2rng_openmp<double>/16777216/real_time      0.360 ms        0.360 ms         1946  372.631/s
