@@ -1,7 +1,7 @@
-[![Build and Test](https://github.com/arminms/p2rng/actions/workflows/cmake.yml/badge.svg)](https://github.com/arminms/p2rng/actions/workflows/cmake.yml)
+[![Build & Test (Linux/macOS/Windows)](https://github.com/arminms/p2rng/actions/workflows/cmake.yml/badge.svg)](https://github.com/arminms/p2rng/actions/workflows/cmake.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # p2rng 
-`p2rng` (Parallel Pseudo Random Number Generator) is a modern header-only C++
+`p2rng` (`P`arallel `P`seudo `R`andom `N`umber `G`enerator) is a modern header-only C++
 library for parallel algorithmic (pseudo) random number generation supporting
 [`OpenMP`](https://www.openmp.org/), [`CUDA`](https://developer.nvidia.com/cuda-zone),
 [`ROCm`](https://www.amd.com/en/graphics/servers-solutions-rocm) and
@@ -15,17 +15,21 @@ library for parallel algorithmic (pseudo) random number generation supporting
 - [Using *p2rng*](#using-p2rng)
 
 ## Features
+- Multiplatform
+  - Linux
+  - macOS
+  - Windows 10/11
 - Support four target APIs
-    - [`CUDA`](https://developer.nvidia.com/cuda-zone)
-    - [`oneAPI`](https://www.intel.com/content/www/us/en/developer/tools/oneapi/overview.html)
-    - [`OpenMP`](https://www.openmp.org/)
-    - [`ROCm`](https://www.amd.com/en/graphics/servers-solutions-rocm)
+  - [`CUDA`](https://developer.nvidia.com/cuda-zone)
+  - [`oneAPI`](https://www.intel.com/content/www/us/en/developer/tools/oneapi/overview.html)
+  - [`OpenMP`](https://www.openmp.org/)
+  - [`ROCm`](https://www.amd.com/en/graphics/servers-solutions-rocm)
 - Provide parallel versions of STL’s
 [`std::generate()`](https://en.cppreference.com/w/cpp/algorithm/generate) and [`std::generate_n()`](https://en.cppreference.com/w/cpp/algorithm/generate_n) algorithms with the same interface 
 - Play fair on all supported platforms (using the same seed and distribution you
  always get the same sequence of random numbers)
 - Included engines:
-    - [PCG Family](https://www.pcg-random.org/)
+  - [PCG Family](https://www.pcg-random.org/)
 - Support [`CMake`](https://cmake.org/) for building and auto configuration
 - Include unit tests using [`Catch2`](https://github.com/catchorg/Catch2)
 - Include benchmarks using [`Google Benchmark`](https://github.com/google/benchmark)

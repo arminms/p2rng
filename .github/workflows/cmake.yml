@@ -29,7 +29,6 @@ jobs:
 
     - name: Configure CMake (macOS)
       run: |
-        export OpenMP_ROOT=$(brew --prefix)/opt/libomp
         echo $OpenMP_ROOT
         cmake -B ${{github.workspace}}/build
       if: matrix.os == 'macos-latest'
