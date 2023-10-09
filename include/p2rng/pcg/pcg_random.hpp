@@ -22,7 +22,8 @@
  */
 
 /*
- * This file has been changed from the original so it can be compiled for GPUs
+ * This file has been changed from the original to support native compilation
+ * for Windows and also GPUs
  */
 
 /*
@@ -1249,7 +1250,11 @@ public:
     }
 
     P2RNG_DEVICE_CODE
+#ifdef _MSC_VER
+    __forceinline result_type operator()()
+#else
     __attribute__((always_inline)) result_type operator()()
+#endif
     {
         result_type rhs = get_extended_value();
         result_type lhs = this->baseclass::operator()();

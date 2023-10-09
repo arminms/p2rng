@@ -22,7 +22,8 @@
  */
 
 /*
- * This file has been changed from the original so it can be compiled for GPUs
+ * This file has been changed from the original to support native compilation
+ * for Windows and also GPUs
  */
 
 /*
@@ -74,6 +75,8 @@
     #elif __powerpc__ || __POWERPC__ || __ppc__ || __PPC__ \
           || __m68k__ || __mc68000__
         #define PCG_LITTLE_ENDIAN 0
+    #elif _MSC_VER
+        #define PCG_LITTLE_ENDIAN 1
     #else
         #error Unable to determine target endianness
     #endif

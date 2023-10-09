@@ -22,7 +22,8 @@
  */
 
 /*
- * This file has been changed from the original so it can be compiled for GPUs
+ * This file has been changed from the original to support native compilation
+ * for Windows and also GPUs
  */
 
 /*
