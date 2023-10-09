@@ -14,7 +14,7 @@ const unsigned long seed_pi{3141592654};
 // generate() algortithm
 
 template <class T>
-void generate_p2rng_rocm(benchmark::State& st)
+void p2rng_generate_rocm(benchmark::State& st)
 {   size_t n = size_t(st.range());
     hipEvent_t start, stop;
     hipEventCreate(&start); hipEventCreate(&stop);
@@ -22,7 +22,7 @@ void generate_p2rng_rocm(benchmark::State& st)
 
     for (auto _ : st)
     {   hipEventRecord(start);
-        p2rng::rocm::generate
+        p2rng::generate
         (   v.begin()
         ,   v.end()
         ,   p2rng::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
@@ -41,13 +41,13 @@ void generate_p2rng_rocm(benchmark::State& st)
     );
 }
 
-BENCHMARK_TEMPLATE(generate_p2rng_rocm, float)
+BENCHMARK_TEMPLATE(p2rng_generate_rocm, float)
 ->  RangeMultiplier(2)
 ->  Range(1<<20, 1<<24)
 ->  UseManualTime()
 ->  Unit(benchmark::kMillisecond);
 
-BENCHMARK_TEMPLATE(generate_p2rng_rocm, double)
+BENCHMARK_TEMPLATE(p2rng_generate_rocm, double)
 ->  RangeMultiplier(2)
 ->  Range(1<<20, 1<<24)
 ->  UseManualTime()

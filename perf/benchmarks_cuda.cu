@@ -14,7 +14,7 @@ const unsigned long seed_pi{3141592654};
 // generate() algortithm
 
 template <class T>
-void generate_p2rng_cuda(benchmark::State& st)
+void p2rng_generate_cuda(benchmark::State& st)
 {   size_t n = size_t(st.range());
     cudaEvent_t start, stop;
     cudaEventCreate(&start); cudaEventCreate(&stop);
@@ -22,7 +22,7 @@ void generate_p2rng_cuda(benchmark::State& st)
 
     for (auto _ : st)
     {   cudaEventRecord(start);
-        p2rng::cuda::generate
+        p2rng::generate
         (   v.begin()
         ,   v.end()
         ,   p2rng::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
@@ -41,13 +41,13 @@ void generate_p2rng_cuda(benchmark::State& st)
     );
 }
 
-BENCHMARK_TEMPLATE(generate_p2rng_cuda, float)
+BENCHMARK_TEMPLATE(p2rng_generate_cuda, float)
 ->  RangeMultiplier(2)
 ->  Range(1<<20, 1<<24)
 ->  UseManualTime()
 ->  Unit(benchmark::kMillisecond);
 
-BENCHMARK_TEMPLATE(generate_p2rng_cuda, double)
+BENCHMARK_TEMPLATE(p2rng_generate_cuda, double)
 ->  RangeMultiplier(2)
 ->  Range(1<<20, 1<<24)
 ->  UseManualTime()

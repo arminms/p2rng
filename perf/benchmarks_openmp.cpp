@@ -15,7 +15,7 @@ const unsigned long seed_pi{3141592654};
 // generate() algorithm
 
 template <class T>
-void generate_stl(benchmark::State& st)
+void stl_generate(benchmark::State& st)
 {   size_t n = size_t(st.range());
     std::vector<T> v(n);
 
@@ -32,18 +32,18 @@ void generate_stl(benchmark::State& st)
     );
 }
 
-BENCHMARK_TEMPLATE(generate_stl, float)
+BENCHMARK_TEMPLATE(stl_generate, float)
 ->  RangeMultiplier(2)
 ->  Range(1<<20, 1<<24)
 ->  Unit(benchmark::kMillisecond);
 
-BENCHMARK_TEMPLATE(generate_stl, double)
+BENCHMARK_TEMPLATE(stl_generate, double)
 ->  RangeMultiplier(2)
 ->  Range(1<<20, 1<<24)
 ->  Unit(benchmark::kMillisecond);
 
 template <class T>
-void generate_p2rng_openmp(benchmark::State& st)
+void p2rng_generate_openmp(benchmark::State& st)
 {   size_t n = size_t(st.range());
     std::vector<T> v(n);
 
@@ -60,13 +60,13 @@ void generate_p2rng_openmp(benchmark::State& st)
     );
 }
 
-BENCHMARK_TEMPLATE(generate_p2rng_openmp, float)
+BENCHMARK_TEMPLATE(p2rng_generate_openmp, float)
 ->  RangeMultiplier(2)
 ->  Range(1<<20, 1<<24)
 ->  UseRealTime()
 ->  Unit(benchmark::kMillisecond);
 
-BENCHMARK_TEMPLATE(generate_p2rng_openmp, double)
+BENCHMARK_TEMPLATE(p2rng_generate_openmp, double)
 ->  RangeMultiplier(2)
 ->  Range(1<<20, 1<<24)
 ->  UseRealTime()
