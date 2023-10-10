@@ -22,9 +22,9 @@ void p2rng_generate_rocm(benchmark::State& st)
 
     for (auto _ : st)
     {   hipEventRecord(start);
-        p2rng::generate
+        p2rng::generate_n
         (   v.begin()
-        ,   v.end()
+        ,   n
         ,   p2rng::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
         );
         hipEventRecord(stop);
