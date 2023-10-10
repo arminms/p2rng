@@ -21,6 +21,48 @@ TEST_CASE( "Device Info - oneAPI")
     REQUIRE(true);
 }
 
+TEMPLATE_TEST_CASE( "generate_n() - oneAPI", "[10K][pcg32]", float, double )
+{   typedef TestType T;
+    const auto n{10'007};
+    sycl::queue q;
+    std::vector<T> vr(n);
+    trng::uniform_dist<T> u(10, 100);
+
+    std::generate_n
+    (   std::begin(vr)
+    ,   n
+    ,   std::bind(u, pcg32(seed_pi))
+    );
+
+    SECTION("std::generate_n()")
+    {   CHECK( std::all_of
+        (   std::begin(vr)
+        ,   std::end(vr)
+        ,   [] (T v)
+            { return ( v >= 10 && v < 100 ); }
+        ) );
+    }
+
+    SECTION("p2rng::generate()")
+    {   sycl::buffer<T> dvt{sycl::range(n)};
+        p2rng::generate_n
+        (   dpl::begin(dvt)
+        ,   n
+        ,   p2rng::bind(u, pcg32(seed_pi))
+        ,   q
+        ).wait();
+
+        sycl::host_accessor vt{dvt, sycl::read_only};
+
+        CHECK( std::all_of(
+            dpl::counting_iterator<size_t>(0)
+        ,   dpl::counting_iterator<size_t>(n)
+        ,   [&] (size_t i)
+            { return ( std::abs(vr[i] - vt[i]) < 0.00001 ); }
+        ) );
+    }
+}
+
 TEMPLATE_TEST_CASE( "generate() - oneAPI", "[10K][pcg32]", float, double )
 {   typedef TestType T;
     const auto n{10'007};
