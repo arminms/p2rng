@@ -3,9 +3,13 @@
 # p2rng 
 `p2rng` (`P`arallel `P`seudo `R`andom `N`umber `G`enerator) is a modern header-only C++
 library for parallel algorithmic (pseudo) random number generation supporting
-[`OpenMP`](https://www.openmp.org/), [`CUDA`](https://developer.nvidia.com/cuda-zone),
-[`ROCm`](https://www.amd.com/en/graphics/servers-solutions-rocm) and
+[`OpenMP`](https://www.openmp.org/), [`CUDA`](https://developer.nvidia.com/cuda-zone), [`ROCm`](https://www.amd.com/en/graphics/servers-solutions-rocm) and
 [`oneAPI`](https://www.intel.com/content/www/us/en/developer/tools/oneapi/overview.html).
+
+`p2rng` provides alternatives to STL `generate()` family of algorithms that exclusively designed for parallel random number generation on CPUs and GPUs. Unlike C++17 parallel version of [`std::generate()`](https://en.cppreference.com/w/cpp/algorithm/generate) and [`std::generate_n()`](https://en.cppreference.com/w/cpp/algorithm/generate_n) that cannot be readily used for random number generation, `p2rng::generate()` and `p2rng::generate_n()` can do it hassle-free with almost the
+same interface.
+
+One important feature of `generate()` algorithms provided by `p2rng` is that they play fair: using the same seed and distribution you always get the same sequence of random numbers on all supported platforms.
 
 ## Table of contents
 - [Features](#features)
