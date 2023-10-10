@@ -8,6 +8,7 @@ include ( "${CMAKE_CURRENT_LIST_DIR}/p2rng-targets.cmake" )
 
 foreach(_comp ${p2rng_FIND_COMPONENTS})
   if (${_comp} STREQUAL cuda)
+    enable_language(CUDA)
     find_dependency(CUDAToolkit 11 REQUIRED)
   elseif(${_comp} STREQUAL oneapi)
     find_dependency(IntelDPCPP REQUIRED)
