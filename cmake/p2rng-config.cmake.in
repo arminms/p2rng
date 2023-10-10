@@ -29,7 +29,7 @@ foreach(_comp ${p2rng_FIND_COMPONENTS})
       "hip::host"
       "hip::device"
     )
-  elseif(${_comp} STREQUAL stl)
+  elseif(${_comp} STREQUAL openmp)
     find_dependency(OpenMP REQUIRED)
   else()
     set(p2rng_FOUND False)

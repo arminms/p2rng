@@ -21,6 +21,16 @@
 #
 cmake_minimum_required(VERSION 3.21...3.26)
 
+## detect if p2rng is being bundled, disable installations in that case
+#
+if(NOT DEFINED PROJECT_NAME)
+  set(NOT_SUBPROJECT ON)
+else()
+  set(NOT_SUBPROJECT OFF)
+endif()
+
+## Set default build type to Release if none was specified
+#
 include(cmake/BuildType.cmake)
 
 ## life is about choices...
@@ -32,7 +42,7 @@ option(P2RNG_ENABLE_BENCHMARKS "Enable benchmarks ?" ON)
 #
 project(
   p2rng
-  VERSION 0.3.0
+  VERSION 0.4.0
   DESCRIPTION "A modern header-only C++ library for parallel algorithmic (pseudo) random number generation supporting OpenMP, CUDA, ROCm and oneAPI"
   LANGUAGES CXX
 )
@@ -55,7 +65,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH true)
 #
 include(GNUInstallDirs)
 
-## setting target API
+## set target API
 #
 set(P2RNG_TARGET_API "openmp" CACHE
   STRING "Choose target API ?")
@@ -114,7 +124,7 @@ else()
   message(FATAL_ERROR "Wrong P2RNG_TARGET_API: ${P2RNG_TARGET_API}")
 endif()
 
-## defining p2rng target
+## define p2rng target
 #
 add_library(${PROJECT_NAME} INTERFACE)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
@@ -123,12 +133,12 @@ target_include_directories(${PROJECT_NAME} INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  VERSION ${p2rng_VERSION}
+  SOVERSION ${p2rng_VERSION_MAJOR}
+)
 
-## installing p2rng header files
-#
-add_subdirectory(include)
-
-## defining p2rng::cuda target
+## define p2rng::cuda target
 #
 add_library(cuda INTERFACE)
 add_library(${PROJECT_NAME}::cuda ALIAS cuda)
@@ -140,7 +150,7 @@ target_link_libraries(cuda INTERFACE
   ${PROJECT_NAME}::${PROJECT_NAME}
 )
 
-## defining p2rng::oneapi target
+## define p2rng::oneapi target
 #
 add_library(oneapi INTERFACE)
 add_library(${PROJECT_NAME}::oneapi ALIAS oneapi)
@@ -161,7 +171,7 @@ target_link_libraries(oneapi INTERFACE
   oneDPL
 )
 
-## defining p2rng::rocm target
+## define p2rng::rocm target
 #
 add_library(rocm INTERFACE)
 add_library(${PROJECT_NAME}::rocm ALIAS rocm)
@@ -172,7 +182,7 @@ target_link_libraries(rocm INTERFACE
   roc::rocthrust
 )
 
-## defining p2rng::openmp target
+## define p2rng::openmp target
 #
 add_library(openmp INTERFACE)
 add_library(${PROJECT_NAME}::openmp ALIAS openmp)
@@ -181,46 +191,167 @@ target_link_libraries(openmp INTERFACE
   OpenMP::OpenMP_CXX
 )
 
-## add unit tests
+## only perform the installation when p2rng is not being used as a subproject
 #
-if(${P2RNG_ENABLE_TESTS})
-  enable_testing()
-  find_package(
-    Catch2 3
-    HINTS $ENV{HOME} /usr/local /opt/local /opt
+if (NOT_SUBPROJECT)
+  ## install the target and create export-set
+  #
+  install(
+    TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}-targets
   )
-  if(NOT Catch2_FOUND)
-      message(STATUS "Fetching Catch2 library...")
-      FetchContent_Declare(
-        catch2
-        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG        v3.4.0
-      )
-      FetchContent_MakeAvailable(Catch2)
-      list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
-  endif()
-  include(Catch)
-  add_subdirectory(test)
-endif()
 
-## add benchmarks
-#
-if(${P2RNG_ENABLE_BENCHMARKS})
-  find_package(benchmark
-    CONFIG
-    HINTS $ENV{HOME} /usr/local /opt/local /opt
+  ## install p2rng header files
+  #
+  add_subdirectory(include)
+
+  ## generate and install export file
+  #
+  install(
+    EXPORT ${PROJECT_NAME}-targets
+    FILE ${PROJECT_NAME}-targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
   )
-  if(NOT benchmark_FOUND)
-    message(STATUS "Fetching Google Benchmark library...")
-    FetchContent_Declare(
-      benchmark
-      GIT_REPOSITORY https://github.com/google/benchmark.git
-      GIT_TAG        v1.7.1
+
+  ## install the target and create export-set for cuda
+  #
+  install(
+    TARGETS cuda
+    EXPORT cuda-targets
+  )
+
+  ## generate and install export file for cuda
+  #
+  install(
+    EXPORT cuda-targets
+    FILE ${PROJECT_NAME}-cuda-targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+  )
+
+  ## install the target and create export-set for oneapi
+  #
+  install(
+    TARGETS oneapi
+    EXPORT oneapi-targets
+  )
+
+  ## generate and install export file for oneapi
+  #
+  install(
+    EXPORT oneapi-targets
+    FILE ${PROJECT_NAME}-oneapi-targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+  )
+
+  ## install the target and create export-set for rocm
+  #
+  install(
+    TARGETS rocm
+    EXPORT rocm-targets
+  )
+
+  ## generate and install export file for rocm
+  #
+  install(
+    EXPORT rocm-targets
+    FILE ${PROJECT_NAME}-rocm-targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+  )
+
+  ## install the target and create export-set for openmp
+  #
+  install(
+    TARGETS openmp
+    EXPORT openmp-targets
+  )
+
+  ## generate and install export file for openmp
+  #
+  install(
+    EXPORT openmp-targets
+    FILE ${PROJECT_NAME}-openmp-targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+  )
+
+  ## generate the config file that includes the exports
+  #
+  include(CMakePackageConfigHelpers)
+  configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    NO_CHECK_REQUIRED_COMPONENTS_MACRO
+  )
+
+  ## create version file
+  #
+  write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
+    VERSION "${p2rng_VERSION_MAJOR}.${p2rng_VERSION_MINOR}"
+    COMPATIBILITY AnyNewerVersion
+  )
+
+  ## install p2rng export config files
+  #
+  install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+  )
+
+  ## make export target available from the build tree
+  #
+  export(EXPORT ${PROJECT_NAME}-targets
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-targets.cmake"
+    NAMESPACE ${PROJECT_NAME}::
+  )
+
+  ## add unit tests
+  #
+  if(${P2RNG_ENABLE_TESTS})
+    enable_testing()
+    find_package(
+      Catch2 3
+      HINTS $ENV{HOME} /usr/local /opt/local /opt
     )
-    set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL
-      "Enable testing of the benchmark library."
-    )
-    FetchContent_MakeAvailable(benchmark)
+    if(NOT Catch2_FOUND)
+        message(STATUS "Fetching Catch2 library...")
+        FetchContent_Declare(
+          catch2
+          GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+          GIT_TAG        v3.4.0
+        )
+        FetchContent_MakeAvailable(Catch2)
+        list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+    endif()
+    include(Catch)
+    add_subdirectory(test)
   endif()
-  add_subdirectory(perf)
-endif()
+
+  ## add benchmarks
+  #
+  if(${P2RNG_ENABLE_BENCHMARKS})
+    find_package(benchmark
+      CONFIG
+      HINTS $ENV{HOME} /usr/local /opt/local /opt
+    )
+    if(NOT benchmark_FOUND)
+      message(STATUS "Fetching Google Benchmark library...")
+      FetchContent_Declare(
+        benchmark
+        GIT_REPOSITORY https://github.com/google/benchmark.git
+        GIT_TAG        v1.7.1
+      )
+      set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL
+        "Enable testing of the benchmark library."
+      )
+      FetchContent_MakeAvailable(benchmark)
+    endif()
+    add_subdirectory(perf)
+  endif()
+endif(NOT_SUBPROJECT)
