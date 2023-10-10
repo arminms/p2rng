@@ -28,6 +28,48 @@ TEST_CASE( "Device Info - CUDA")
     std::cout << "Running on: " << prop.name << std::endl;
 }
 
+TEMPLATE_TEST_CASE("generate_n() - CUDA", "[10K][pcg32]", float, double)
+{   typedef TestType T;
+    const auto n{10'007};
+    std::vector<T> vr(n);
+    trng::uniform_dist<T> u(10, 100);
+
+    std::generate_n
+    (   std::begin(vr)
+    ,   n
+    ,   std::bind(u, pcg32(seed_pi))
+    );
+
+    SECTION("std::generate_n()")
+    {   CHECK( std::all_of
+        (   std::begin(vr)
+        ,   std::end(vr)
+        ,   [] (T v)
+            { return ( v >= 10 && v < 100 ); }
+        ) );
+    }
+
+    SECTION("p2rng::generate_n()")
+    {   thrust::device_vector<T> dvt(n);
+        auto itr = p2rng::generate_n
+        (   std::begin(dvt)
+        ,   n
+        ,   p2rng::bind(u, pcg32(seed_pi))
+        );
+
+        CHECK(itr == std::end(dvt));
+
+        thrust::device_vector<T> dvr(n);
+        thrust::copy(vr.begin(), vr.end(), dvr.begin());
+
+        CHECK( thrust::all_of
+        (   thrust::make_zip_iterator(thrust::make_tuple(dvr.begin(), dvt.begin()))
+        ,   thrust::make_zip_iterator(thrust::make_tuple(dvr.end(), dvt.end()))
+        ,   equal()
+        ) );
+    }
+}
+
 TEMPLATE_TEST_CASE("generate() - CUDA", "[10K][pcg32]", float, double)
 {   typedef TestType T;
     const auto n{10'007};
