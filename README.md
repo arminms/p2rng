@@ -83,33 +83,40 @@ of `p2rng` exports four (namespaced) targets:
 Linking against them adds the proper include paths and links your target with
 proper libraries depending on the API. This means that if `p2rng` has been installed on the system, it should be enough to do:
 ```cmake
-find_package(p2rng REQUIRED)
+find_package(p2rng CONFIG COMPONENTS openmp cuda)
 
-# link test1 with p2rng using OpenMP API
-add_executable(test1 test1.cpp)
-target_link_libraries(test1 PRIVATE p2rng::openmp)
+# link test.cpp with p2rng using OpenMP API
+add_executable(test_openmp test.cpp)
+target_link_libraries(test_openmp PRIVATE p2rng::openmp)
 
-# link test2 with p2rng using CUDA API
-add_executable(test2 test2.cpp)
-target_link_libraries(test2 PRIVATE p2rng::cuda)
+# link test.cu with p2rng using CUDA API
+add_executable(test_cuda test.cu)
+target_link_libraries(test_cuda PRIVATE p2rng::cuda)
 ```
 
 Another possibility is to check if `p2rng` is installed and if not use
 [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html):
 
 ```cmake
-find_package(p2rng)
+# include the module
+include(FetchContent)
+
+# first check if p2rng is already installed
+find_package(p2rng CONFIG COMPONENTS oneapi)
+
+# if not, try to fetch and make it available
 if(NOT p2rng_FOUND)
   message(STATUS "Fetching p2rng library...")
   FetchContent_Declare(
     p2rng
     GIT_REPOSITORY https://github.com/arminms/p2rng.git
+    GIT_TAG main
   )
   FetchContent_MakeAvailable(p2rng)
 endif()
 
-# link test with p2rng using oneapi API
-add_executable(test test.cpp)
-target_link_libraries(test PRIVATE p2rng::oneapi)
+# link test.cpp with p2rng using oneapi as API
+add_executable(test_oneapi test.cpp)
+target_link_libraries(test_oneapi PRIVATE p2rng::oneapi)
 
 ```
