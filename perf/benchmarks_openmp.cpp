@@ -20,9 +20,9 @@ void stl_generate(benchmark::State& st)
     std::vector<T> v(n);
 
     for (auto _ : st)
-        std::generate
+        std::generate_n
         (   std::begin(v)
-        ,   std::end(v)
+        ,   n
         ,   std::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
         );
 
@@ -48,9 +48,9 @@ void p2rng_generate_openmp(benchmark::State& st)
     std::vector<T> v(n);
 
     for (auto _ : st)
-        p2rng::generate
+        p2rng::generate_n
         (   std::begin(v)
-        ,   std::end(v)
+        ,   n
         ,   p2rng::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
         );
 
