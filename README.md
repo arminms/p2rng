@@ -17,6 +17,9 @@ One important feature of `generate()` algorithms provided by `p2rng` is that the
 - [Running unit tests](#running-unit-tests)
 - [Running benchmarks](#running-benchmarks)
 - [Using *p2rng*](#using-p2rng)
+  - [OpenMP Example](#openmp-example)
+  - [CUDA/ROCm Example](#cudarocm-example)
+  - [oneAPI Example](#oneapi-example)
 
 ## Features
 - Multiplatform
@@ -119,4 +122,60 @@ endif()
 add_executable(test_oneapi test.cpp)
 target_link_libraries(test_oneapi PRIVATE p2rng::oneapi)
 
+```
+### OpenMP Example
+```c++
+#include <vector>
+#include <p2rng/p2rng.hpp>
+
+int main(int argc, char* argv[])
+{   typedef float T;
+    const unsigned long seed_pi{3141592654};
+    const auto n{100};
+    std::vector<T> v(n);
+
+    p2rng::generate_n
+    (   std::begin(v)
+    ,   n
+    ,   p2rng::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
+    );
+}
+```
+### CUDA/ROCm Example
+```c++
+#include <thrust/device_vector.h>
+#include <p2rng/p2rng.hpp>
+
+int main(int argc, char* argv[])
+{   typedef float T;
+    const unsigned long seed_pi{3141592654};
+    const auto n{100};
+    thrust::device_vector<T> v(n);
+
+    p2rng::generate_n
+    (   std::begin(v)
+    ,   n
+    ,   p2rng::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
+    );
+}
+```
+### oneAPI Example
+```c++
+#include <sycl/sycl.hpp>
+#include <p2rng/p2rng.hpp>
+
+int main(int argc, char* argv[])
+{   typedef float T;
+    const unsigned long seed_pi{3141592654};
+    const auto n{100};
+    sycl::queue q;
+    sycl::buffer<T> v{sycl::range(n)};
+
+    p2rng::generate_n
+    (   std::begin(v)
+    ,   n
+    ,   p2rng::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
+    ,   q // this is optional and can be omitted
+    ).wait();
+}
 ```
