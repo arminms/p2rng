@@ -23,12 +23,11 @@ cmake_minimum_required(VERSION 3.21...3.26)
 
 ## detect if p2rng is being bundled, disable installations in that case
 #
-# if(NOT DEFINED PROJECT_NAME)
-#   set(NOT_SUBPROJECT ON)
-# else()
-#   set(NOT_SUBPROJECT OFF)
-# endif()
-set(NOT_SUBPROJECT ON)
+if(NOT DEFINED PROJECT_NAME)
+  set(NOT_SUBPROJECT ON)
+else()
+  set(NOT_SUBPROJECT OFF)
+endif()
 
 ## Set default build type to Release if none was specified
 #
@@ -76,16 +75,6 @@ set_property(CACHE P2RNG_TARGET_API PROPERTY STRINGS
   "oneapi"
   "openmp"
   "rocm"
-)
-
-## set HIP target
-#
-set(HIP_TARGET "hip::device" CACHE
-  STRING "Choose HIP target ?"
-)
-set_property(CACHE HIP_TARGET PROPERTY STRINGS
-  "hip::host"
-  "hip::device"
 )
 
 ## switch to the target API
@@ -159,7 +148,6 @@ add_library(${PROJECT_NAME}::rocm ALIAS rocm)
 target_compile_options(rocm INTERFACE -Wno-unused-result)
 target_link_libraries(rocm INTERFACE
   ${PROJECT_NAME}::${PROJECT_NAME}
-  ${HIP_TARGET}
   roc::rocthrust
 )
 
