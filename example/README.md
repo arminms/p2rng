@@ -6,10 +6,11 @@ This folder contains a complete example of how to use `p2rng` including the `CMa
     ├── README.md
     ├── rand100.cu
     ├── rand100_oneapi.cpp
-    └── rand100_openmp.cpp
+    ├── rand100_openmp.cpp
+    └── rand100_rocm.cpp
 ```
 ## CMake script (`CMakeLists.txt`)
-The CMake script always builds the `OpenMP` version. Depending on availability of other APIs, it tries to build them as well and ignores otherwise. That's why `cuda`, `oneapi` and `rocm` are listed as `OPTIONAL_COMPONENTS` in `find_package(p2rng)` command. It uses the same source (i.e. `rand100.cu`) for both `CUDA` and `ROCm` versions:
+The CMake script always builds the `OpenMP` version. Depending on availability of other APIs, it tries to build them as well and ignores otherwise. That's why `cuda`, `oneapi` and `rocm` are listed as `OPTIONAL_COMPONENTS` in `find_package(p2rng)` command:
 ```cmake
 cmake_minimum_required(VERSION 3.21...3.26)
 
@@ -151,7 +152,8 @@ int main(int argc, char* argv[])
     std::cout << '\n' << std::endl;
 }
 ```
-## CUDA/ROCm (`rand100.cu`)
+## CUDA/ROCm (`rand100.cu`, `rand100_rocm.cpp`)
+`CUDA` and `ROCm` sources are exactly the same in this case, so only one of them is shown here:
 ```c++
 #include <iostream>
 #include <iomanip>

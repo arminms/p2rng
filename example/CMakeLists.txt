@@ -42,7 +42,7 @@ endif()
 check_language(HIP)
 if(CMAKE_HIP_COMPILER)
   enable_language(HIP)
-  add_executable(rand100_rocm rand100.cu)
+  add_executable(rand100_rocm rand100_rocm.cpp)
   target_link_libraries(rand100_rocm PRIVATE p2rng::rocm)
 endif()
 

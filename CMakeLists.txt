@@ -23,11 +23,12 @@ cmake_minimum_required(VERSION 3.21...3.26)
 
 ## detect if p2rng is being bundled, disable installations in that case
 #
-if(NOT DEFINED PROJECT_NAME)
-  set(NOT_SUBPROJECT ON)
-else()
-  set(NOT_SUBPROJECT OFF)
-endif()
+# if(NOT DEFINED PROJECT_NAME)
+#   set(NOT_SUBPROJECT ON)
+# else()
+#   set(NOT_SUBPROJECT OFF)
+# endif()
+set(NOT_SUBPROJECT ON)
 
 ## Set default build type to Release if none was specified
 #
