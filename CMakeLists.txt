@@ -42,7 +42,7 @@ option(P2RNG_ENABLE_BENCHMARKS "Enable benchmarks ?" ON)
 #
 project(
   p2rng
-  VERSION 0.4.0
+  VERSION 0.5.0
   DESCRIPTION "A modern header-only C++ library for parallel algorithmic (pseudo) random number generation supporting OpenMP, CUDA, ROCm and oneAPI"
   LANGUAGES CXX
 )
@@ -88,17 +88,7 @@ if(${P2RNG_TARGET_API} STREQUAL cuda)
     message(FATAL_ERROR "No CUDA support found")
   endif()
 elseif(${P2RNG_TARGET_API} STREQUAL oneapi)
-  if("${CMAKE_CXX_COMPILER}" MATCHES ".*clang\\+\\+")
-    set(SYCL_TARGETS "nvptx64-nvidia-cuda,amdgcn-amd-amdhsa,spir64" CACHE STRING "Choose SYCL targets?" FORCE)
-    set(SYCL_CUDA_ARCH "sm_50" CACHE STRING "Choose CUDA compute capability for SYCL?" FORCE)
-    set(SYCL_ROCM_ARCH "gfx90a" CACHE STRING "Choose SYCL target backend for AMD GPUs?" FORCE)
-  else()
-    set(SYCL_TARGETS "spir64" CACHE STRING "Choose SYCL targets?" FORCE)
-  endif()
-  find_package(IntelSYCL QUIET)
-  if(NOT IntelSYCL_FOUND)
-    find_package(IntelDPCPP QUIET REQUIRED)
-  endif()
+  find_package(IntelDPCPP REQUIRED)
   find_package(oneDPL REQUIRED)
 elseif(${P2RNG_TARGET_API} STREQUAL rocm)
   include(CheckLanguage)
@@ -154,18 +144,6 @@ target_link_libraries(cuda INTERFACE
 #
 add_library(oneapi INTERFACE)
 add_library(${PROJECT_NAME}::oneapi ALIAS oneapi)
-target_compile_options(oneapi INTERFACE
-  -fsycl
-  -fsycl-targets=${SYCL_TARGETS}
-  $<$<BOOL:${SYCL_CUDA_ARCH}>:-Xsycl-target-backend=nvptx64-nvidia-cuda;--offload-arch=${SYCL_CUDA_ARCH}>
-  $<$<BOOL:${SYCL_ROCM_ARCH}>:-Xsycl-target-backend=amdgcn-amd-amdhsa;--offload-arch=${SYCL_ROCM_ARCH}>
-)
-target_link_options(oneapi INTERFACE
-  -fsycl
-  -fsycl-targets=${SYCL_TARGETS}
-  $<$<BOOL:${SYCL_CUDA_ARCH}>:-Xsycl-target-backend=nvptx64-nvidia-cuda;--offload-arch=${SYCL_CUDA_ARCH}>
-  $<$<BOOL:${SYCL_ROCM_ARCH}>:-Xsycl-target-backend=amdgcn-amd-amdhsa;--offload-arch=${SYCL_ROCM_ARCH}>
-)
 target_link_libraries(oneapi INTERFACE
   ${PROJECT_NAME}::${PROJECT_NAME}
   oneDPL

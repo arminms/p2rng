@@ -1,4 +1,4 @@
-#include <oneapi/dpl/execution>
+#include <oneapi/dpl/iterator>
 #include <sycl/sycl.hpp>
 
 #include <catch2/catch_all.hpp>

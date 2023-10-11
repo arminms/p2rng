@@ -121,7 +121,6 @@ endif()
 # link test.cpp with p2rng using oneapi as API
 add_executable(test_oneapi test.cpp)
 target_link_libraries(test_oneapi PRIVATE p2rng::oneapi)
-
 ```
 ### OpenMP Example
 ```c++
@@ -161,6 +160,7 @@ int main(int argc, char* argv[])
 ```
 ### oneAPI Example
 ```c++
+#include <oneapi/dpl/iterator>
 #include <sycl/sycl.hpp>
 #include <p2rng/p2rng.hpp>
 
@@ -172,7 +172,7 @@ int main(int argc, char* argv[])
     sycl::buffer<T> v{sycl::range(n)};
 
     p2rng::generate_n
-    (   std::begin(v)
+    (   dpl::begin(v)
     ,   n
     ,   p2rng::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
     ,   q // this is optional and can be omitted
