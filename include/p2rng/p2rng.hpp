@@ -25,6 +25,7 @@
 #include <p2rng/bind.hpp>
 #include <p2rng/pcg/pcg_random.hpp>
 #include <p2rng/trng/uniform_dist.hpp>
+#include <p2rng/trng/uniform_int_dist.hpp>
 #include <p2rng/algorithm/generate.hpp>
 
 #endif  // _P2RNG_P2RNG_HPP_
