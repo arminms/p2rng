@@ -56,6 +56,7 @@ endif()
 ## necessary modules
 #
 include(FetchContent)
+include(CheckLanguage)
 
 ## for systems with main libraries in non-standard locations
 #
@@ -89,7 +90,6 @@ set_property(CACHE HIP_TARGET PROPERTY STRINGS
 ## switch to the target API
 #
 if(${P2RNG_TARGET_API} STREQUAL cuda)
-  include(CheckLanguage)
   check_language(CUDA)
   if(CMAKE_CUDA_COMPILER)
     enable_language(CUDA)
@@ -101,7 +101,6 @@ elseif(${P2RNG_TARGET_API} STREQUAL oneapi)
   find_package(IntelDPCPP REQUIRED)
   find_package(oneDPL REQUIRED)
 elseif(${P2RNG_TARGET_API} STREQUAL rocm)
-  include(CheckLanguage)
   check_language(HIP)
   if(CMAKE_HIP_COMPILER)
     enable_language(HIP)
