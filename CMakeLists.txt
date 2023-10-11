@@ -76,6 +76,16 @@ set_property(CACHE P2RNG_TARGET_API PROPERTY STRINGS
   "rocm"
 )
 
+## set HIP target
+#
+set(HIP_TARGET "hip::device" CACHE
+  STRING "Choose HIP target ?"
+)
+set_property(CACHE HIP_TARGET PROPERTY STRINGS
+  "hip::host"
+  "hip::device"
+)
+
 ## switch to the target API
 #
 if(${P2RNG_TARGET_API} STREQUAL cuda)
@@ -100,13 +110,6 @@ elseif(${P2RNG_TARGET_API} STREQUAL rocm)
   endif()
   find_package(hip REQUIRED)
   find_package(rocThrust REQUIRED)
-  set(HIP_TARGET "hip::device" CACHE
-      STRING "Choose HIP target ?"
-  )
-  set_property(CACHE HIP_TARGET PROPERTY STRINGS
-    "hip::host"
-    "hip::device"
-  )
 elseif(${P2RNG_TARGET_API} STREQUAL openmp)
   find_package(OpenMP REQUIRED)
   list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)

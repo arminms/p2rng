@@ -16,13 +16,6 @@ foreach(_comp ${p2rng_FIND_COMPONENTS})
   elseif(${_comp} STREQUAL rocm)
     find_dependency(hip REQUIRED)
     find_dependency(rocThrust REQUIRED)
-    set(HIP_TARGET "hip::device" CACHE
-        STRING "Choose HIP target ?"
-    )
-    set_property(CACHE HIP_TARGET PROPERTY STRINGS
-      "hip::host"
-      "hip::device"
-    )
   elseif(${_comp} STREQUAL openmp)
     find_dependency(OpenMP REQUIRED)
   else()
