@@ -37,6 +37,7 @@ One important feature of `generate()` algorithms provided by `p2rng` is that the
  always get the same sequence of random numbers)
 - Included engines:
   - [PCG Family](https://www.pcg-random.org/)
+- Include all 32 distributions provided by [TRNG](https://github.com/rabauke/trng4) library
 - Support [`CMake`](https://cmake.org/) for building and auto configuration
 - Include unit tests using [`Catch2`](https://github.com/catchorg/Catch2)
 - Include benchmarks using [`Google Benchmark`](https://github.com/google/benchmark)
