@@ -46,7 +46,7 @@ TEMPLATE_TEST_CASE( "generate_n() - oneAPI", "[10K][pcg32]", float, double )
 
     SECTION("p2rng::generate()")
     {   sycl::buffer<T> dvt{sycl::range(n)};
-        p2rng::generate_n
+        p2rng::oneapi::generate_n
         (   dpl::begin(dvt)
         ,   n
         ,   p2rng::bind(u, pcg32(seed_pi))
@@ -88,7 +88,7 @@ TEMPLATE_TEST_CASE( "generate() - oneAPI", "[10K][pcg32]", float, double )
 
     SECTION("p2rng::generate()")
     {   sycl::buffer<T> dvt{sycl::range(n)};
-        p2rng::generate
+        p2rng::oneapi::generate
         (   dpl::begin(dvt)
         ,   dpl::end(dvt)
         ,   p2rng::bind(u, pcg32(seed_pi))
@@ -120,7 +120,7 @@ TEMPLATE_TEST_CASE( "uniform_int_dist - oneAPI", "[10K][pcg32][dist]", int )
     );
 
     sycl::buffer<T> dvt{sycl::range(n)};
-    p2rng::generate_n
+    p2rng::oneapi::generate_n
     (   dpl::begin(dvt)
     ,   n
     ,   p2rng::bind(u, pcg32(seed_pi))

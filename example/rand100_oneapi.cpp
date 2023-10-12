@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
     sycl::buffer<int> v{sycl::range(n)};
     sycl::queue q;
 
-    p2rng::generate_n
+    p2rng::oneapi::generate_n
     (   dpl::begin(v)
     ,   n
     ,   p2rng::bind(trng::uniform_int_dist(10, 100), pcg32(pi_seed))

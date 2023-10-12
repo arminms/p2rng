@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
     const auto n{100};
     thrust::device_vector<int> v(n);
 
-    p2rng::generate_n
+    p2rng::rocm::generate_n
     (   std::begin(v)
     ,   n
     ,   p2rng::bind(trng::uniform_int_dist(10, 100), pcg32(pi_seed)) 

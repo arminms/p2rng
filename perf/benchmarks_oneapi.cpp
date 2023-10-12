@@ -22,7 +22,7 @@ void p2rng_generate_oneapi(benchmark::State& st)
     sycl::buffer<T> v(n);
 
     for (auto _ : st)
-    {   auto event = p2rng::generate_n
+    {   auto event = p2rng::oneapi::generate_n
         (   dpl::begin(v)
         ,   n
         ,   p2rng::bind(trng::uniform_dist<T>(10, 100), pcg32(seed_pi))
