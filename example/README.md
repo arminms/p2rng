@@ -156,7 +156,7 @@ int main(int argc, char* argv[])
     std::cout << '\n' << std::endl;
 }
 ```
-## CUDA/ROCm (`rand100.cu`, `rand100_rocm.cpp`)
+## CUDA (`rand100.cu`)
 `CUDA` and `ROCm` sources are exactly the same in this case, so only one of them is shown here:
 ```c++
 #include <iostream>
@@ -170,7 +170,34 @@ int main(int argc, char* argv[])
     const auto n{100};
     thrust::device_vector<int> v(n);
 
-    p2rng::generate_n
+    p2rng::cuda::generate_n
+    (   std::begin(v)
+    ,   n
+    ,   p2rng::bind(trng::uniform_int_dist(10, 100), pcg32(pi_seed)) 
+    );
+
+    for (size_t i = 0; i < n; ++i)
+    {   if (0 == i % 10)
+            std::cout << '\n';
+        std::cout << std::setw(3) << v[i];
+    }
+    std::cout << '\n' << std::endl;
+}
+```
+## ROCm (`rand100_rocm.cpp`)
+```c++
+#include <iostream>
+#include <iomanip>
+
+#include <thrust/device_vector.h>
+#include <p2rng/p2rng.hpp>
+
+int main(int argc, char* argv[])
+{   const unsigned long pi_seed{3141592654};
+    const auto n{100};
+    thrust::device_vector<int> v(n);
+
+    p2rng::rocm::generate_n
     (   std::begin(v)
     ,   n
     ,   p2rng::bind(trng::uniform_int_dist(10, 100), pcg32(pi_seed)) 
@@ -199,7 +226,7 @@ int main(int argc, char* argv[])
     sycl::buffer<int> v{sycl::range(n)};
     sycl::queue q;
 
-    p2rng::generate_n
+    p2rng::oneapi::generate_n
     (   dpl::begin(v)
     ,   n
     ,   p2rng::bind(trng::uniform_int_dist(10, 100), pcg32(pi_seed))
