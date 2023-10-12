@@ -10,7 +10,7 @@ This folder contains a complete example of how to use `p2rng` including the `CMa
     └── rand100_rocm.cpp
 ```
 ## CMake script (`CMakeLists.txt`)
-The CMake script always builds the `OpenMP` version. Depending on availability of other APIs, it tries to build them as well and ignores otherwise. That's why `cuda`, `oneapi` and `rocm` are listed as `OPTIONAL_COMPONENTS` in `find_package(p2rng)` command:
+The CMake script builds the `OpenMP` version by default. Depending on the availability of other APIs on the system, it tries to build them as well and ignores otherwise. That's why `cuda`, `oneapi` and `rocm` are listed as `OPTIONAL_COMPONENTS` in `find_package(p2rng)` command:
 ```cmake
 cmake_minimum_required(VERSION 3.21...3.26)
 
@@ -33,6 +33,10 @@ if(NOT p2rng_FOUND)
     p2rng
     GIT_REPOSITORY https://github.com/arminms/p2rng.git
     GIT_TAG main
+  )
+  # setting required p2rng components
+  set(P2RNG_COMPONENTS openmp cuda oneapi rocm
+    CACHE STRING "Required components"
   )
   FetchContent_MakeAvailable(p2rng)
 endif()

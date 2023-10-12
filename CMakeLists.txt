@@ -43,7 +43,7 @@ option(P2RNG_ENABLE_BENCHMARKS "Enable benchmarks ?" ON)
 #
 project(
   p2rng
-  VERSION 0.6.0
+  VERSION 0.7.0
   DESCRIPTION "A modern header-only C++ library for parallel algorithmic (pseudo) random number generation supporting OpenMP, CUDA, ROCm and oneAPI"
   LANGUAGES CXX
 )
@@ -117,7 +117,8 @@ else()
   message(FATAL_ERROR "Wrong P2RNG_TARGET_API: ${P2RNG_TARGET_API}")
 endif()
 
-## try to find dependency for requested components when p2rng is being bundled
+## try to find dependency for requested components based on the
+#  P2RNG_COMPONENTS cache variable when p2rng is being bundled
 #
 if (NOT NOT_SUBPROJECT)
   list(FIND P2RNG_COMPONENTS cuda DEPENDS_ON_CUDA)

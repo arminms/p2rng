@@ -20,6 +20,10 @@ if(NOT p2rng_FOUND)
     GIT_REPOSITORY https://github.com/arminms/p2rng.git
     GIT_TAG main
   )
+  # setting required p2rng components
+  set(P2RNG_COMPONENTS openmp cuda oneapi rocm
+    CACHE STRING "Required components"
+  )
   FetchContent_MakeAvailable(p2rng)
 endif()
 
