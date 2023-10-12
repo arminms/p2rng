@@ -25,9 +25,9 @@ cmake_minimum_required(VERSION 3.21...3.26)
 #
 if(NOT DEFINED PROJECT_NAME)
   set(NOT_SUBPROJECT ON)
-  set(P2RNG_COMPONENTS openmp CACHE INTERNAL "list of components")
 else()
   set(NOT_SUBPROJECT OFF)
+  set(P2RNG_COMPONENTS openmp CACHE INTERNAL "list of components")
 endif()
 
 ## Set default build type to Release if none was specified
@@ -117,6 +117,27 @@ else()
   message(FATAL_ERROR "Wrong P2RNG_TARGET_API: ${P2RNG_TARGET_API}")
 endif()
 
+## try to find dependency for requested components when p2rng is being bundled
+#
+if (NOT NOT_SUBPROJECT)
+  list(FIND P2RNG_COMPONENTS cuda DEPENDS_ON_CUDA)
+  if (DEPENDS_ON_CUDA GREATER -1)
+    find_package(CUDAToolkit 11...12 REQUIRED)
+  endif()
+
+  list(FIND P2RNG_COMPONENTS rocm DEPENDS_ON_ROCM)
+  if (DEPENDS_ON_ROCM GREATER -1)
+    find_package(hip)
+    find_package(rocThrust)
+  endif()
+
+  list(FIND P2RNG_COMPONENTS oneapi DEPENDS_ON_ONEAPI)
+  if (DEPENDS_ON_ONEAPI GREATER -1)
+    find_package(IntelDPCPP)
+    find_package(oneDPL)
+  endif()
+endif()
+
 ## define p2rng target
 #
 add_library(${PROJECT_NAME} INTERFACE)
@@ -174,25 +195,6 @@ target_link_libraries(openmp INTERFACE
 ## only perform the installation when p2rng is not being used as a subproject
 #
 if (NOT_SUBPROJECT)
-  ## try to find dependency for requested components
-  #
-  list(FIND P2RNG_COMPONENTS cuda DEPENDS_ON_CUDA)
-  if (DEPENDS_ON_CUDA GREATER -1)
-    find_package(CUDAToolkit 11...12 REQUIRED)
-  endif()
-
-  list(FIND P2RNG_COMPONENTS rocm DEPENDS_ON_ROCM)
-  if (DEPENDS_ON_ROCM GREATER -1)
-    find_package(hip)
-    find_package(rocThrust)
-  endif()
-
-  list(FIND P2RNG_COMPONENTS oneapi DEPENDS_ON_ONEAPI)
-  if (DEPENDS_ON_ONEAPI GREATER -1)
-    find_package(IntelDPCPP)
-    find_package(oneDPL)
-  endif()
-
   ## install the target and create export-set
   #
   install(
