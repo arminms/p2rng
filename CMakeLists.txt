@@ -27,8 +27,7 @@ if(NOT DEFINED PROJECT_NAME)
   set(NOT_SUBPROJECT ON)
 else()
   set(NOT_SUBPROJECT OFF)
-  set(P2RNG_COMPONENTS openmp CACHE STRING "list of components")
-  message(STATUS "p2rng is in bundled mode")
+  set(P2RNG_COMPONENTS openmp CACHE STRING "Required components")
 endif()
 
 ## Set default build type to Release if none was specified
@@ -121,22 +120,21 @@ endif()
 ## try to find dependency for requested components when p2rng is being bundled
 #
 if (NOT NOT_SUBPROJECT)
-  message(STATUS "Finding component dependencies: ${P2RNG_COMPONENTS}")
   list(FIND P2RNG_COMPONENTS cuda DEPENDS_ON_CUDA)
   if (DEPENDS_ON_CUDA GREATER -1)
-    find_package(CUDAToolkit 11...12)
+    find_package(CUDAToolkit 11...12 QUIET)
   endif()
 
   list(FIND P2RNG_COMPONENTS rocm DEPENDS_ON_ROCM)
   if (DEPENDS_ON_ROCM GREATER -1)
-    find_package(hip)
-    find_package(rocThrust)
+    find_package(hip QUIET)
+    find_package(rocThrust QUIET)
   endif()
 
   list(FIND P2RNG_COMPONENTS oneapi DEPENDS_ON_ONEAPI)
   if (DEPENDS_ON_ONEAPI GREATER -1)
-    find_package(IntelDPCPP)
-    find_package(oneDPL)
+    find_package(IntelDPCPP QUIET)
+    find_package(oneDPL QUIET)
   endif()
 endif()
 
