@@ -1,0 +1,27 @@
+2023-10-12T17:08:07-04:00
+Running build-cuda/perf/benchmarks
+Run on (48 X 3614.93 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x48)
+  L1 Instruction 32 KiB (x48)
+  L2 Unified 512 KiB (x48)
+  L3 Unified 32768 KiB (x8)
+Load Average: 6.14, 6.45, 6.85
+GPU:
+  NVIDIA A100-SXM4-40GB
+  L2 Cache: 40960 KiB
+  Number of SMs: x108
+  Peak Memory Bandwidth: 1555 (GB/s)
+------------------------------------------------------------------------------------------------------
+Benchmark                                                 Time             CPU   Iterations  BW (GB/s)
+------------------------------------------------------------------------------------------------------
+p2rng_generate_cuda<float>/1048576/manual_time        0.056 ms        0.063 ms        10894  74.3961/s
+p2rng_generate_cuda<float>/2097152/manual_time        0.107 ms        0.114 ms         6528  78.2329/s
+p2rng_generate_cuda<float>/4194304/manual_time        0.218 ms        0.225 ms         3208  76.9102/s
+p2rng_generate_cuda<float>/8388608/manual_time        0.450 ms        0.456 ms         1557  74.6077/s
+p2rng_generate_cuda<float>/16777216/manual_time       0.931 ms        0.936 ms          752  72.1066/s
+p2rng_generate_cuda<double>/1048576/manual_time       0.054 ms        0.061 ms        12995   155.56/s
+p2rng_generate_cuda<double>/2097152/manual_time       0.107 ms        0.114 ms         6556  157.118/s
+p2rng_generate_cuda<double>/4194304/manual_time       0.217 ms        0.224 ms         3222  154.383/s
+p2rng_generate_cuda<double>/8388608/manual_time       0.448 ms        0.454 ms         1564  149.915/s
+p2rng_generate_cuda<double>/16777216/manual_time      0.927 ms        0.932 ms          755  144.804/s

@@ -1,4 +1,4 @@
-2023-10-09T10:19:04-04:00
+2023-10-12T16:49:40-04:00
 Running build/perf/benchmarks
 Run on (128 X 2794.65 MHz CPU s)
 CPU Caches:
@@ -6,27 +6,27 @@ CPU Caches:
   L1 Instruction 32 KiB (x64)
   L2 Unified 512 KiB (x64)
   L3 Unified 32768 KiB (x16)
-Load Average: 0.01, 0.09, 0.09
+Load Average: 0.07, 0.04, 0.05
 ------------------------------------------------------------------------------------------------------
 Benchmark                                                 Time             CPU   Iterations  BW (GB/s)
 ------------------------------------------------------------------------------------------------------
-generate_stl<float>/1048576                            1.13 ms         1.13 ms          619  3.70477/s
-generate_stl<float>/2097152                            2.26 ms         2.26 ms          309  3.70545/s
-generate_stl<float>/4194304                            4.53 ms         4.53 ms          154  3.70497/s
-generate_stl<float>/8388608                            9.07 ms         9.07 ms           76  3.70131/s
-generate_stl<float>/16777216                           18.2 ms         18.2 ms           39   3.6901/s
-generate_stl<double>/1048576                           1.13 ms         1.13 ms          618  7.41022/s
-generate_stl<double>/2097152                           2.26 ms         2.26 ms          309  7.41036/s
-generate_stl<double>/4194304                           4.55 ms         4.55 ms          154  7.37824/s
-generate_stl<double>/8388608                           9.16 ms         9.16 ms           76  7.32829/s
-generate_stl<double>/16777216                          18.4 ms         18.4 ms           38  7.31129/s
-generate_p2rng_openmp<float>/1048576/real_time        0.059 ms        0.059 ms        11925  71.6939/s
-generate_p2rng_openmp<float>/2097152/real_time        0.072 ms        0.072 ms         9691  117.179/s
-generate_p2rng_openmp<float>/4194304/real_time        0.105 ms        0.105 ms         6439   159.14/s
-generate_p2rng_openmp<float>/8388608/real_time        0.199 ms        0.199 ms         3643  168.367/s
-generate_p2rng_openmp<float>/16777216/real_time       0.341 ms        0.341 ms         2043  196.934/s
-generate_p2rng_openmp<double>/1048576/real_time       0.058 ms        0.058 ms        11740  143.954/s
-generate_p2rng_openmp<double>/2097152/real_time       0.082 ms        0.082 ms         8755  205.348/s
-generate_p2rng_openmp<double>/4194304/real_time       0.129 ms        0.129 ms         6061  259.149/s
-generate_p2rng_openmp<double>/8388608/real_time       0.255 ms        0.254 ms         3503  262.861/s
-generate_p2rng_openmp<double>/16777216/real_time      0.360 ms        0.360 ms         1946  372.631/s
+stl_generate<float>/1048576                            1.13 ms         1.13 ms          618  3.70608/s
+stl_generate<float>/2097152                            2.26 ms         2.26 ms          309  3.70611/s
+stl_generate<float>/4194304                            4.53 ms         4.53 ms          155  3.70117/s
+stl_generate<float>/8388608                            9.06 ms         9.06 ms           77   3.7053/s
+stl_generate<float>/16777216                           18.2 ms         18.2 ms           38  3.69253/s
+stl_generate<double>/1048576                           1.16 ms         1.16 ms          601  7.21236/s
+stl_generate<double>/2097152                           2.33 ms         2.33 ms          301  7.21276/s
+stl_generate<double>/4194304                           4.66 ms         4.66 ms          150   7.1974/s
+stl_generate<double>/8388608                           9.40 ms         9.40 ms           74   7.1364/s
+stl_generate<double>/16777216                          18.8 ms         18.8 ms           37  7.12223/s
+p2rng_generate_openmp<float>/1048576/real_time        0.060 ms        0.060 ms        11738  70.2157/s
+p2rng_generate_openmp<float>/2097152/real_time        0.074 ms        0.074 ms         9387  112.829/s
+p2rng_generate_openmp<float>/4194304/real_time        0.110 ms        0.110 ms         6364  152.605/s
+p2rng_generate_openmp<float>/8388608/real_time        0.192 ms        0.192 ms         3797  174.927/s
+p2rng_generate_openmp<float>/16777216/real_time       0.335 ms        0.335 ms         2090  200.584/s
+p2rng_generate_openmp<double>/1048576/real_time       0.061 ms        0.061 ms        11233  136.619/s
+p2rng_generate_openmp<double>/2097152/real_time       0.081 ms        0.081 ms         8426  207.024/s
+p2rng_generate_openmp<double>/4194304/real_time       0.136 ms        0.136 ms         5922   247.07/s
+p2rng_generate_openmp<double>/8388608/real_time       0.214 ms        0.214 ms         3307  313.398/s
+p2rng_generate_openmp<double>/16777216/real_time      0.386 ms        0.386 ms         1819  347.603/s

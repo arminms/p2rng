@@ -1,12 +1,11 @@
-2023-10-09T10:14:41-04:00
-Running perf/benchmarks
+unning build-rocm/perf/benchmarks
 Run on (128 X 2794.65 MHz CPU s)
 CPU Caches:
   L1 Data 32 KiB (x64)
   L1 Instruction 32 KiB (x64)
   L2 Unified 512 KiB (x64)
   L3 Unified 32768 KiB (x16)
-Load Average: 0.27, 0.17, 0.10
+Load Average: 4.98, 5.50, 3.01
 GPU:
   AMD Instinct MI210
   L2 Cache: 8192 KiB
@@ -15,13 +14,13 @@ GPU:
 ------------------------------------------------------------------------------------------------------
 Benchmark                                                 Time             CPU   Iterations  BW (GB/s)
 ------------------------------------------------------------------------------------------------------
-generate_p2rng_rocm<float>/1048576/manual_time        0.057 ms        0.073 ms        12343  73.9729/s
-generate_p2rng_rocm<float>/2097152/manual_time        0.097 ms        0.116 ms         7247  86.8508/s
-generate_p2rng_rocm<float>/4194304/manual_time        0.180 ms        0.198 ms         3894  93.3282/s
-generate_p2rng_rocm<float>/8388608/manual_time        0.352 ms        0.370 ms         1991  95.4046/s
-generate_p2rng_rocm<float>/16777216/manual_time       0.709 ms        0.727 ms          987  94.6272/s
-generate_p2rng_rocm<double>/1048576/manual_time       0.058 ms        0.077 ms        12143  145.125/s
-generate_p2rng_rocm<double>/2097152/manual_time       0.098 ms        0.117 ms         7087  170.892/s
-generate_p2rng_rocm<double>/4194304/manual_time       0.181 ms        0.199 ms         3865  185.699/s
-generate_p2rng_rocm<double>/8388608/manual_time       0.354 ms        0.373 ms         1971  189.321/s
-generate_p2rng_rocm<double>/16777216/manual_time      0.715 ms        0.732 ms          979  187.772/s
+p2rng_generate_rocm<float>/1048576/manual_time        0.057 ms        0.078 ms        12358  73.7611/s
+p2rng_generate_rocm<float>/2097152/manual_time        0.097 ms        0.117 ms         7221  86.5602/s
+p2rng_generate_rocm<float>/4194304/manual_time        0.180 ms        0.197 ms         3886  93.2582/s
+p2rng_generate_rocm<float>/8388608/manual_time        0.352 ms        0.370 ms         1990  95.3958/s
+p2rng_generate_rocm<float>/16777216/manual_time       0.710 ms        0.727 ms          987  94.5727/s
+p2rng_generate_rocm<double>/1048576/manual_time       0.058 ms        0.076 ms        12129  145.378/s
+p2rng_generate_rocm<double>/2097152/manual_time       0.098 ms        0.117 ms         7122  170.609/s
+p2rng_generate_rocm<double>/4194304/manual_time       0.181 ms        0.200 ms         3876  185.695/s
+p2rng_generate_rocm<double>/8388608/manual_time       0.355 ms        0.373 ms         1973  189.193/s
+p2rng_generate_rocm<double>/16777216/manual_time      0.715 ms        0.734 ms          979  187.703/s
