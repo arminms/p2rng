@@ -5,14 +5,14 @@
 #include <p2rng/p2rng.hpp>
 
 int main(int argc, char* argv[])
-{   const unsigned long pi_seed{3141592654};
+{   const unsigned long seed{2718281828};
     const auto n{100};
     thrust::device_vector<int> v(n);
 
     p2rng::cuda::generate_n
     (   std::begin(v)
     ,   n
-    ,   p2rng::bind(trng::uniform_int_dist(10, 100), pcg32(pi_seed)) 
+    ,   p2rng::bind(trng::uniform_int_dist(10, 100), pcg32(seed)) 
     );
 
     for (size_t i = 0; i < n; ++i)

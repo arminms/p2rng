@@ -6,7 +6,7 @@
 #include <p2rng/p2rng.hpp>
 
 int main(int argc, char* argv[])
-{   const unsigned long pi_seed{3141592654};
+{   const unsigned long seed{2718281828};
     const auto n{100};
     sycl::buffer<int> v{sycl::range(n)};
     sycl::queue q;
@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
     p2rng::oneapi::generate_n
     (   dpl::begin(v)
     ,   n
-    ,   p2rng::bind(trng::uniform_int_dist(10, 100), pcg32(pi_seed))
+    ,   p2rng::bind(trng::uniform_int_dist(10, 100), pcg32(seed))
     ,   q   // this is optional and can be omitted
     ).wait();
 
