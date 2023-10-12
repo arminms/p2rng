@@ -121,10 +121,10 @@ endif()
 ## try to find dependency for requested components when p2rng is being bundled
 #
 if (NOT NOT_SUBPROJECT)
-  message(STATUS "Finding component dependencies...")
+  message(STATUS "Finding component dependencies: ${P2RNG_COMPONENTS}")
   list(FIND P2RNG_COMPONENTS cuda DEPENDS_ON_CUDA)
   if (DEPENDS_ON_CUDA GREATER -1)
-    find_package(CUDAToolkit 11...12 REQUIRED)
+    find_package(CUDAToolkit 11...12)
   endif()
 
   list(FIND P2RNG_COMPONENTS rocm DEPENDS_ON_ROCM)
