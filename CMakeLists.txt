@@ -43,7 +43,7 @@ option(P2RNG_ENABLE_BENCHMARKS "Enable benchmarks ?" ON)
 #
 project(
   p2rng
-  VERSION 0.7.0
+  VERSION 0.8.0
   DESCRIPTION "A modern header-only C++ library for parallel algorithmic (pseudo) random number generation supporting OpenMP, CUDA, ROCm and oneAPI"
   LANGUAGES CXX
 )
@@ -121,22 +121,21 @@ endif()
 #  P2RNG_COMPONENTS cache variable when p2rng is being bundled
 #
 if (NOT NOT_SUBPROJECT)
-  list(FIND P2RNG_COMPONENTS cuda DEPENDS_ON_CUDA)
-  if (DEPENDS_ON_CUDA GREATER -1)
-    find_package(CUDAToolkit 11 QUIET)
-  endif()
-
-  list(FIND P2RNG_COMPONENTS rocm DEPENDS_ON_ROCM)
-  if (DEPENDS_ON_ROCM GREATER -1)
-    find_package(hip QUIET)
-    find_package(rocThrust QUIET)
-  endif()
-
-  list(FIND P2RNG_COMPONENTS oneapi DEPENDS_ON_ONEAPI)
-  if (DEPENDS_ON_ONEAPI GREATER -1)
-    find_package(IntelDPCPP QUIET)
-    find_package(oneDPL QUIET)
-  endif()
+  foreach(_comp ${P2RNG_COMPONENTS})
+    if (${_comp} STREQUAL cuda)
+      find_package(CUDAToolkit 11 QUIET)
+    elseif(${_comp} STREQUAL oneapi)
+      find_package(IntelDPCPP QUIET)
+      find_package(oneDPL QUIET)
+    elseif(${_comp} STREQUAL rocm)
+      find_package(hip QUIET)
+      find_package(rocThrust QUIET)
+    elseif(${_comp} STREQUAL openmp)
+      find_package(OpenMP QUIET)
+    else()
+      message(FATAL_ERROR "Unsupported p2rng component: ${_comp}")
+    endif()
+  endforeach()
 endif()
 
 ## define p2rng target
