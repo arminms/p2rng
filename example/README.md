@@ -157,7 +157,6 @@ int main(int argc, char* argv[])
 }
 ```
 ## CUDA (`rand100.cu`)
-`CUDA` and `ROCm` sources are exactly the same in this case, so only one of them is shown here:
 ```c++
 #include <iostream>
 #include <iomanip>
