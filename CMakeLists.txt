@@ -25,6 +25,7 @@ cmake_minimum_required(VERSION 3.21...3.26)
 #
 if(NOT DEFINED PROJECT_NAME)
   set(NOT_SUBPROJECT ON)
+  set(P2RNG_COMPONENTS openmp CACHE INTERNAL "list of components")
 else()
   set(NOT_SUBPROJECT OFF)
 endif()
@@ -77,13 +78,23 @@ set_property(CACHE P2RNG_TARGET_API PROPERTY STRINGS
   "rocm"
 )
 
+## set HIP target
+#
+set(HIP_TARGET "hip::device" CACHE
+  STRING "Choose HIP target ?"
+)
+set_property(CACHE HIP_TARGET PROPERTY STRINGS
+  "hip::host"
+  "hip::device"
+)
+
 ## switch to the target API
 #
 if(${P2RNG_TARGET_API} STREQUAL cuda)
   check_language(CUDA)
   if(CMAKE_CUDA_COMPILER)
     enable_language(CUDA)
-    find_package(CUDAToolkit 11 REQUIRED)
+    find_package(CUDAToolkit 11...12 REQUIRED)
   else()
     message(FATAL_ERROR "No CUDA support found")
   endif()
@@ -163,6 +174,25 @@ target_link_libraries(openmp INTERFACE
 ## only perform the installation when p2rng is not being used as a subproject
 #
 if (NOT_SUBPROJECT)
+  ## try to find dependency for requested components
+  #
+  list(FIND P2RNG_COMPONENTS cuda DEPENDS_ON_CUDA)
+  if (DEPENDS_ON_CUDA GREATER -1)
+    find_package(CUDAToolkit 11...12 REQUIRED)
+  endif()
+
+  list(FIND P2RNG_COMPONENTS rocm DEPENDS_ON_ROCM)
+  if (DEPENDS_ON_ROCM GREATER -1)
+    find_package(hip)
+    find_package(rocThrust)
+  endif()
+
+  list(FIND P2RNG_COMPONENTS oneapi DEPENDS_ON_ONEAPI)
+  if (DEPENDS_ON_ONEAPI GREATER -1)
+    find_package(IntelDPCPP)
+    find_package(oneDPL)
+  endif()
+
   ## install the target and create export-set
   #
   install(
