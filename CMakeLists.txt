@@ -43,7 +43,7 @@ option(P2RNG_ENABLE_BENCHMARKS "Enable benchmarks ?" ON)
 #
 project(
   p2rng
-  VERSION 0.8.0
+  VERSION 0.9.0
   DESCRIPTION "A modern header-only C++ library for parallel algorithmic (pseudo) random number generation supporting OpenMP, CUDA, ROCm and oneAPI"
   LANGUAGES CXX
 )
