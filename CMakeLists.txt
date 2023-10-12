@@ -27,7 +27,7 @@ if(NOT DEFINED PROJECT_NAME)
   set(NOT_SUBPROJECT ON)
 else()
   set(NOT_SUBPROJECT OFF)
-  set(P2RNG_COMPONENTS openmp CACHE "list of components")
+  set(P2RNG_COMPONENTS openmp CACHE STRING "list of components")
   message(STATUS "p2rng is in bundled mode")
 endif()
 
