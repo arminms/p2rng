@@ -27,11 +27,6 @@ if(NOT p2rng_FOUND)
   FetchContent_MakeAvailable(p2rng)
 endif()
 
-## build OpenMP version by default
-#
-add_executable(rand100_openmp rand100_openmp.cpp)
-target_link_libraries(rand100_openmp PRIVATE p2rng::openmp)
-
 ## build CUDA version if it's available
 #
 check_language(CUDA)
@@ -50,10 +45,13 @@ if(CMAKE_HIP_COMPILER)
   target_link_libraries(rand100_rocm PRIVATE p2rng::rocm)
 endif()
 
-## build oneAPI version if it's available
+## build oneAPI version if it's available, go with OpenMP otherwise
 #
 find_package(IntelDPCPP CONFIG)
 if (IntelDPCPP_FOUND)
   add_executable(rand100_oneapi rand100_oneapi.cpp)
   target_link_libraries(rand100_oneapi PRIVATE p2rng::oneapi)
+else() # openmp and oneapi are mutually exclusive
+  add_executable(rand100_openmp rand100_openmp.cpp)
+  target_link_libraries(rand100_openmp PRIVATE p2rng::openmp)
 endif()
