@@ -9,7 +9,7 @@ library for parallel algorithmic (pseudo) random number generation supporting
 `p2rng` provides alternatives to STL `generate()` family of algorithms that exclusively designed for parallel random number generation on CPUs and GPUs. Unlike C++17 parallel version of [`std::generate()`](https://en.cppreference.com/w/cpp/algorithm/generate) and [`std::generate_n()`](https://en.cppreference.com/w/cpp/algorithm/generate_n) that cannot be readily used for random number generation, `p2rng::generate()` and `p2rng::generate_n()` can do it hassle-free with almost the
 same interface.
 
-One important feature of `generate()` algorithms provided by `p2rng` is that they play fair: using the same seed and distribution, you can get the same sequence of random numbers on all supported platforms. CUDA, ROCm and oneAPI provide their own parallel random number libraries: [cuRAND](https://docs.nvidia.com/cuda/curand/index.html), [rocRAND](https://rocm.docs.amd.com/projects/rocRAND) and [oneMKL](https://www.intel.com/content/www/us/en/docs/oneapi/programming-guide/2023-2/overview.html). Aside from the fact that their interface is not compatible with STL, it's almost impossible to get the the same sequence of random numbers using them.
+One important feature of `generate()` algorithms provided by `p2rng` is that they play fair: using the same seed and distribution, you can get the same sequence of random numbers on all supported platforms regardless of the number of parallel threads. CUDA, ROCm and oneAPI provide their own parallel random number libraries: [cuRAND](https://docs.nvidia.com/cuda/curand/index.html), [rocRAND](https://rocm.docs.amd.com/projects/rocRAND) and [oneMKL](https://www.intel.com/content/www/us/en/docs/oneapi/programming-guide/2023-2/overview.html). Aside from the fact that their interface is not compatible with STL, it's almost impossible to get the the same sequence of random numbers using them.
 
 ## Table of contents
 - [Features](#features)
@@ -31,7 +31,7 @@ One important feature of `generate()` algorithms provided by `p2rng` is that the
   - [`ROCm`](https://www.amd.com/en/graphics/servers-solutions-rocm)
 - Provide parallel versions of STL’s
 [`std::generate()`](https://en.cppreference.com/w/cpp/algorithm/generate) and [`std::generate_n()`](https://en.cppreference.com/w/cpp/algorithm/generate_n) algorithms with the same interface 
-- Play fair on all supported platforms (using the same seed and distribution you get the same sequence of random numbers)
+- Play fair on all supported platforms
 - Included engines:
   - [PCG Family](https://www.pcg-random.org/)
 - Include all 32 distributions provided by [TRNG](https://github.com/rabauke/trng4) library
