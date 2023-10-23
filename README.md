@@ -18,6 +18,7 @@ One important feature of `generate()` algorithms provided by `p2rng` is that the
 - [Running benchmarks](#running-benchmarks)
 - [Using *p2rng*](#using-p2rng)
   - [Example](#example)
+  - [YouTube Video](#youtube-video)
 
 ## Features
 - Multiplatform
@@ -122,5 +123,12 @@ endif()
 add_executable(test_oneapi test.cpp)
 target_link_libraries(test_oneapi PRIVATE p2rng::oneapi)
 ```
-# Example
+### Example
 You can find a complete example of the above approach in the [`example`](example/) folder along with build instructions.
+
+### YouTube Video
+There is a recorded video about `p2rng` on [SHARCNET YouTube Channel](https://youtube.sharcnet.ca):
+
+* [p2rng – A C++ Parallel Random Number Generator Library for the Masses](https://youtu.be/nyOH8nvHBss)
+
+You can find PDF of the slides in the [doc](./doc) folder.
